@@ -16,6 +16,29 @@ client.on("ready", (c) => {
     console.log(`✅${c.user.tag} is online.`);
 });
 
+client.on('interactionCreate', (interaction) => {
+    if (!interaction.isChatInputCommand()) return;
+
+    if (interaction.commandName === 'meow') {
+        interaction.reply('meow :3')
+    }
+    if (interaction.commandName === 'ive-been-sad-lately-cat-bot') {
+        interaction.reply('meow :(')
+    }
+    if (interaction.commandName === 'meow-meow-meow') {
+        const num = interaction.options.get('meow-request').value;
+        const maxMeows = 200
+        
+        if (num > maxMeows) {
+            const gifUrl = 'https://media.tenor.com/Mow3BwJQLc8AAAAi/cat-cat-meme.gif'
+            interaction.reply({ files: [gifUrl]});
+        } else {
+            const response = 'meow '.repeat(num).trim();
+            interaction.reply(response)
+        }
+    }
+});
+
 client.on('messageCreate', (message) => {
     if (message.author.bot) {
         return;
