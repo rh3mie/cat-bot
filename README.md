@@ -1,3 +1,3 @@
-# cat-collector-bot
-discord bot for collecting cats (wip)
+# cat-bot
+discord bot inspired by cats (wip)
 
