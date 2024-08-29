@@ -47,6 +47,11 @@ client.on('messageCreate', (message) => {
     if (message.content === 'meow :3') {
         message.reply('meow :3');
     }
+
+    if (message.content === 'what do you think about this cat bot') {
+        const gifUrl = 'https://media1.tenor.com/m/DtD4LZbctTIAAAAC/tamm-cat.gif'
+        message.reply({ files: [gifUrl] });
+    }
 });
 
 client.login(process.env.BOT_TOKEN);
