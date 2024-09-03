@@ -23,6 +23,10 @@ const commands = [
             },
         ]
     },
+    {
+        name: 'cat-pic',
+        description: 'generates a random cat image'
+    },
 ];
 
 const rest = new REST ({ version: '10' }).setToken(process.env.BOT_TOKEN);

@@ -1,6 +1,5 @@
 require("dotenv").config();
 const axios = require("axios");
-const Commando = require("discord.js-commando");
 
 const { Client, IntentsBitField } = require("discord.js");
 
@@ -17,15 +16,17 @@ client.on("ready", (c) => {
   console.log(`✅${c.user.tag} is online.`);
 });
 
-client.on("interactionCreate", (interaction) => {
+client.on("interactionCreate", async interaction => {
   if (!interaction.isChatInputCommand()) return;
 
   if (interaction.commandName === "meow") {
     interaction.reply("meow :3");
   }
+
   if (interaction.commandName === "ive-been-sad-lately-cat-bot") {
     interaction.reply("meow :(");
   }
+
   if (interaction.commandName === "meow-meow-meow") {
     const num = interaction.options.get("meow-request").value;
     const maxMeows = 200;
@@ -39,28 +40,20 @@ client.on("interactionCreate", (interaction) => {
       interaction.reply(response);
     }
   }
-});
 
-module.exports = class CatImageCommand extends Commando.Command {
-  constructor(client) {
-    super(client, {
-      name: "cat-image",
-      group: "misc",
-      memberName: "cat",
-      description: "Displays a random image of a cat",
-    });
+  if (interaction.commandName === 'cat-pic') {
+    try {
+      const response = await fetch ('https://api.thecatapi.com/v1/images/search');
+      const data = await response.json();
+      const imageUrl = data[0].url;
+
+      await interaction.reply({ content: 'Here is a random cat image :3', files: [imageUrl]});
+    } catch (error) {
+      console.error('Error fetching cat image:', error);
+      await interaction.reply('Sorry, I CANT FETCH A CAT IMAGE UGHH GAHHHA');
+    }
   }
-  run = async((message) => {
-    axios
-      .get("https://api.thecatapi.com/v1/images/search")
-      .then((res) => {
-        message.reply(res.data[0].url);
-      })
-      .catch((err) => {
-        console.error("ERR:", err);
-      });
-  });
-};
+});
 
 client.on("messageCreate", (message) => {
   if (message.author.bot) {
